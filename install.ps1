@@ -39,6 +39,11 @@ try {
               "Windows Security > App & browser control > Smart App Control (on some builds this cannot be turned back on).")
     }
 
+    # A running copy (close-to-tray keeps it alive) locks the exe the installer must replace.
+    if (Get-Process -Name 'tundra-mail' -ErrorAction SilentlyContinue) {
+        Fail "Tundra Mail is running. Quit it first (tray icon by the clock > Quit), then run this again."
+    }
+
     # 2. Download + verify.
     New-Item -ItemType Directory -Path $work -Force | Out-Null
     Say "Downloading $name ..."
